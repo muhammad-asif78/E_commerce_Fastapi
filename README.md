@@ -11,6 +11,7 @@ Backend API for an e-commerce project built with FastAPI, SQLAlchemy, bearer-tok
 - SQLAlchemy ORM models
 - Alembic migration setup included in the repository
 - Environment-based configuration with `.env`
+- Repository guidance in `CLAUDE.md`
 
 ## Tech Stack
 
@@ -25,6 +26,7 @@ Backend API for an e-commerce project built with FastAPI, SQLAlchemy, bearer-tok
 
 ```text
 .
+├── CLAUDE.md
 ├── alembic/
 │   ├── env.py
 │   └── versions/
@@ -37,9 +39,21 @@ Backend API for an e-commerce project built with FastAPI, SQLAlchemy, bearer-tok
 │   ├── router/
 │   └── schemas/
 ├── alembic.ini
+├── .env.example
 ├── pyproject.toml
 └── README.md
 ```
+
+## Main Modules
+
+- `app/main.py` -> FastAPI app creation and router registration
+- `app/auth.py` -> password hashing, token creation/validation, auth dependencies
+- `app/config.py` -> environment variable loading
+- `app/database.py` -> SQLAlchemy engine and session setup
+- `app/model.py` -> database models
+- `app/router/` -> API endpoints
+- `app/schemas/` -> Pydantic request/response models
+- `alembic/` -> migration configuration and revision history
 
 ## Environment Variables
 
@@ -68,6 +82,22 @@ If you use `uv`, you can also install from the lockfile:
 uv sync
 ```
 
+## Quick Start
+
+1. Create and activate the virtual environment
+2. Copy `.env.example` to `.env`
+3. Update `DATABASE_URL` and `SECRET_KEY`
+4. Run database migrations
+5. Start the API server
+
+Example:
+
+```bash
+cp .env.example .env
+alembic upgrade head
+.venv/bin/python -m uvicorn app.main:app --reload
+```
+
 ## Run The App
 
 ```bash
@@ -85,6 +115,16 @@ Open:
 2. Login with `POST /auth/login`
 3. Copy the `access_token`
 4. In Swagger, click `Authorize` and paste only the token
+
+Example login payload:
+
+```json
+{
+  "email": "admin@example.com",
+  "password": "admin123",
+  "account_type": "admin"
+}
+```
 
 ## Database Migrations
 
@@ -113,11 +153,37 @@ alembic revision --autogenerate -m "your_message"
 - Todos
 - Email
 
+## Security Notes
+
+- Real `.env` files are intentionally ignored by Git
+- Keep `SECRET_KEY` private and unique per environment
+- Use bearer tokens only over trusted HTTPS deployments
+- Review `CLAUDE.md` before making auth, admin, or migration changes
+
+## Git Workflow
+
+Use these commands to save and upload your changes:
+
+```bash
+git status
+git add .
+git commit -m "Your commit message"
+git push origin main
+```
+
+If you want to push only selected files:
+
+```bash
+git add README.md
+git commit -m "Update README"
+git push origin main
+```
+
 ## Notes
 
-- Real `.env` files are intentionally ignored by Git for security.
-- Alembic files are included and ready to version with the project.
-- Swagger authorization is configured for token-only bearer input.
+- Alembic files are included and ready to version with the project
+- Swagger authorization is configured for token-only bearer input
+- Repository-specific engineering and security guidance lives in `CLAUDE.md`
 
 ## License
 
