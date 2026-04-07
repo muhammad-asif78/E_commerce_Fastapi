@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+build/
+dist/
+wheels/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+.env.*
+!.env.example
+app/.env
+
+# IDE / editor
+.idea/
+.vscode/
+.codex
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local databases and logs
+*.db
+*.sqlite3
+*.log
+
+# Python version managers
+.python-version
